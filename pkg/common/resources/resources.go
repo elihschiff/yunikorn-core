@@ -167,6 +167,11 @@ func (r *Resource) AddTo(add *Resource) {
 // A nil base resource does not change
 // A nil passed in resource is treated as a zero valued resource and leaves the base unchanged.
 func (r *Resource) SubFrom(sub *Resource, skipUndef bool) {
+	log.Logger().Info("SubFrom",
+		zap.Bool("skipUndef", skipUndef),
+		zap.Stringer("sub", sub),
+		zap.Stringer("r", r))
+
 	if r != nil {
 		if sub == nil {
 			return
