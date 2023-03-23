@@ -1623,7 +1623,7 @@ func (sa *Application) ReplaceAllocation(uuid string) *Allocation {
 	// we need the original Replaced allocation result.
 	alloc.ClearReleases()
 	alloc.SetResult(Allocated)
-	if sa.placeholderData != nil {
+	if sa.placeholderData != nil && sa.placeholderData[ph.GetTaskGroup()] != nil {
 		log.Logger().Info("sa.placeholderData[ph.GetTaskGroup()].Replaced++",
 			zap.Stringer("sa", sa),
 			zap.Stringer("sa.placeholderData", sa.placeholderData[ph.GetTaskGroup()]),
