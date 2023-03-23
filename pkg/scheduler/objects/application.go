@@ -64,6 +64,12 @@ type PlaceholderData struct {
 	TimedOut      int64
 }
 
+func (pd PlaceholderData) String() string {
+	return fmt.Sprintf("TaskGroupName: %s, Count: %d, MinResource: %v,"+
+		" Replaced: %d, TimedOut: %d",
+		pd.TaskGroupName, pd.Count, pd.MinResource, pd.Replaced, pd.TimedOut)
+}
+
 type StateLogEntry struct {
 	Time             time.Time
 	ApplicationState string
@@ -1618,6 +1624,9 @@ func (sa *Application) ReplaceAllocation(uuid string) *Allocation {
 	alloc.ClearReleases()
 	alloc.SetResult(Allocated)
 	if sa.placeholderData != nil {
+		log.Logger().Info("sa.placeholderData[ph.GetTaskGroup()].Replaced++",
+			zap.Stringer("sa.placeholderData", sa.placeholderData[ph.GetTaskGroup()]),
+			zap.String("ph.GetTaskGroup()", ph.GetTaskGroup()))
 		sa.placeholderData[ph.GetTaskGroup()].Replaced++
 	}
 	return ph
