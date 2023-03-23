@@ -1625,7 +1625,10 @@ func (sa *Application) ReplaceAllocation(uuid string) *Allocation {
 	alloc.SetResult(Allocated)
 	if sa.placeholderData != nil {
 		log.Logger().Info("sa.placeholderData[ph.GetTaskGroup()].Replaced++",
+			zap.Stringer("sa", sa),
 			zap.Stringer("sa.placeholderData", sa.placeholderData[ph.GetTaskGroup()]),
+			zap.Stringer("sa.placeholderData[spark-driver]", sa.placeholderData["spark-driver"]),
+			zap.Stringer("sa.placeholderData[spark-executor]", sa.placeholderData["spark-executor"]),
 			zap.String("ph.GetTaskGroup()", ph.GetTaskGroup()))
 		sa.placeholderData[ph.GetTaskGroup()].Replaced++
 	}
