@@ -289,9 +289,15 @@ func checkSchedulingContext(schedulerContext *ClusterContext) []dao.HealthCheckI
 		}
 		partitionReservationRatio = append(partitionReservationRatio, float32(sumReservation)/(float32(part.GetTotalNodeCount())))
 		if !resources.Equals(sumNodeAllocatedResources, part.GetAllocatedResource()) {
+			log.Logger().Error("Allocation mismatch",
+				zap.Stringer("sumNodeAllocatedResources", sumNodeAllocatedResources),
+				zap.Stringer("part.GetAllocatedResource()", part.GetAllocatedResource()))
 			allocationMismatch = append(allocationMismatch, part.Name)
 		}
 		if !resources.EqualsOrEmpty(sumNodeResources, part.GetTotalPartitionResource()) {
+			log.Logger().Error("Sum node resources mismatch",
+				zap.Stringer("sumNodeResources", sumNodeResources),
+				zap.Stringer("part.GetTotalPartitionResource()", part.GetTotalPartitionResource()))
 			totalResourceMismatch = append(totalResourceMismatch, part.Name)
 		}
 	}
